@@ -1,5 +1,5 @@
 {
-  "name": "spawn2ws",
+  "name": "s2ws",
   "version": "2.0.0",
   "description": "Expose Spawn to WebSockets",
   "main": "index.js",
