@@ -1,27 +1,26 @@
 {
-  "name": "spawn2sse",
-  "version": "1.0.0",
-  "description": "Expose spawn to Server Sent Events",
+  "name": "spawn2ws",
+  "version": "2.0.0",
+  "description": "Expose Spawn to WebSockets",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/kpcyrd/spawn2sse.git"
+    "url": "git+https://github.com/kpcyrd/spawn2ws.git"
   },
   "keywords": [
     "spawn",
-    "sse"
+    "websockets"
   ],
   "author": "kpcyrd",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/kpcyrd/spawn2sse/issues"
+    "url": "https://github.com/kpcyrd/s2ws/issues"
   },
-  "homepage": "https://github.com/kpcyrd/spawn2sse#readme",
+  "homepage": "https://github.com/kpcyrd/s2ws#readme",
   "dependencies": {
-    "body-parser": "^1.15.2",
-    "express": "^4.14.0"
+    "websocket": "^1.0.23"
   }
 }
