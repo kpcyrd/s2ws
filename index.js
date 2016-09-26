@@ -61,10 +61,6 @@ var server = function(func, options) {
                  sock.close();
             });
         });
-
-        sock.on('close', function() {
-            console.log('closing');
-        });
     });
 
     return server;
