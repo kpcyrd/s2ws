@@ -1,19 +1,19 @@
-# spawn2sse
-Expose spawn to Server Sent Events
+# s2ws
+Expose spawn to WebSockets
 
 ## Example
 ```
-var spawn2sse = require('spawn2sse');
+var s2ws = require('s2ws');
 
-var app = spawn2sse(function(req, res, func) {
-    var url = req.body.url;
+var server = s2ws.server(function(body, func, reject) {
+    var url = body.url;
 
     if(!url) {
-        return res.end('no url');
+        return reject(['no url']);
     }
 
     func('curl', ['--', url]);
 });
 
-app.listen(3000);
+server.listen(3000);
 ```
