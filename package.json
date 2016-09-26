@@ -1,0 +1,23 @@
+{
+  "name": "spawn2sse",
+  "version": "1.0.0",
+  "description": "Expose spawn to Server Sent Events",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kpcyrd/spawn2sse.git"
+  },
+  "keywords": [
+    "spawn",
+    "sse"
+  ],
+  "author": "kpcyrd",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kpcyrd/spawn2sse/issues"
+  },
+  "homepage": "https://github.com/kpcyrd/spawn2sse#readme"
+}
