@@ -15,6 +15,9 @@ module.exports = function(func, options) {
         };
 
         func(req, res, function(command, args, options) {
+            res.header('Content-Type', 'text/event-stream');
+            res.header('Cache-Control', 'no-cache');
+
             var proc = spawn(command, args, options);
 
             proc.on('error', function(err) {
