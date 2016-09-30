@@ -4,6 +4,8 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var WebSocketServer = require('websocket').server;
 var WebSocketClient = require('websocket').client;
+var EtcdClient = require('nodejs-etcd');
+var shuffle = require('shuffle-array');
 
 var server = function(func, options) {
     var server = http.createServer(function(req, res) {
@@ -98,7 +100,56 @@ Client.prototype.spawn = function(body) {
     this.sock.send(JSON.stringify(body));
 };
 
+var publish = function(etcdEndpoint, name, selfEndpoint, options) {
+    if(!etcdEndpoint) throw new Exception('no etcdEndpoint');
+    if(!name) throw new Exception('no name');
+    if(!selfEndpoint) throw new Exception('no selfEndpoint');
+
+    options = options || {};
+    var ttl = options['ttl'] || 10;
+
+    var etcd = new EtcdClient({
+        url: etcdEndpoint.replace(/\/$/, '')
+    });
+
+    var cleanSelfEndpoint = selfEndpoint.replace(/.*\//, '');
+
+    var publish = function() {
+        etcd.write({
+            key: '/s2ws/' + name + '/' + cleanSelfEndpoint,
+            value: selfEndpoint,
+            ttl: ttl
+        }, function() {});
+    };
+
+    setInterval(publish, ttl / 2 * 1000);
+    publish();
+};
+
+var discover = function(etcdEndpoint, name, cb) {
+    if(!etcdEndpoint) throw new Exception('no etcdEndpoint');
+    if(!name) throw new Exception('no name');
+
+    var etcd = new EtcdClient({
+        url: etcdEndpoint.replace(/\/$/, '')
+    });
+
+    etcd.read({
+        key: '/s2ws/' + name
+    }, function(error, response, body) {
+        var obj = JSON.parse(body);
+        var nodes = obj.node.nodes;
+
+        shuffle(nodes);
+
+        var first = nodes[0] || {};
+        cb(first.value);
+    });
+};
+
 module.exports = {
     server: server,
     Client: Client,
+    publish: publish,
+    discover: discover,
 };
