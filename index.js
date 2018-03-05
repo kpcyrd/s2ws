@@ -4,7 +4,7 @@ var util = require('util');
 var EventEmitter = require('events').EventEmitter;
 var WebSocketServer = require('websocket').server;
 var WebSocketClient = require('websocket').client;
-var EtcdClient = require('nodejs-etcd');
+var Etcd = require('node-etcd');
 var shuffle = require('shuffle-array');
 
 var server = function(func, options) {
@@ -108,18 +108,15 @@ var publish = function(etcdEndpoint, name, selfEndpoint, options) {
     options = options || {};
     var ttl = options['ttl'] || 10;
 
-    var etcd = new EtcdClient({
-        url: etcdEndpoint.replace(/\/$/, '')
-    });
+    var etcd = new Etcd(etcdEndpoint.replace(/\/$/, ''));
 
     var cleanSelfEndpoint = selfEndpoint.replace(/.*\//, '');
 
     var publish = function() {
-        etcd.write({
-            key: '/s2ws/' + name + '/' + cleanSelfEndpoint,
-            value: selfEndpoint,
-            ttl: ttl
-        }, function() {});
+        etcd.set('/s2ws/' + name + '/' + cleanSelfEndpoint,
+                 selfEndpoint,
+                 { ttl: ttl },
+                 function() {});
     };
 
     setInterval(publish, ttl / 2 * 1000);
@@ -130,14 +127,9 @@ var discover = function(etcdEndpoint, name, cb) {
     if(!etcdEndpoint) throw new Exception('no etcdEndpoint');
     if(!name) throw new Exception('no name');
 
-    var etcd = new EtcdClient({
-        url: etcdEndpoint.replace(/\/$/, '')
-    });
+    var etcd = new Etcd(etcdEndpoint.replace(/\/$/, ''));
 
-    etcd.read({
-        key: '/s2ws/' + name
-    }, function(error, response, body) {
-        var obj = JSON.parse(body);
+    etcd.get('/s2ws/' + name, function(error, obj) {
         var nodes = obj.node.nodes;
 
         shuffle(nodes);
