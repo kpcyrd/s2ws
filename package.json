@@ -4,7 +4,9 @@
   "description": "Expose Spawn to WebSockets",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "repository": {
     "type": "git",
@@ -23,6 +25,8 @@
   "dependencies": {
     "nodejs-etcd": "^0.1.1",
     "shuffle-array": "^1.0.0",
-    "websocket": "^1.0.23"
-  }
+    "websocket": "^1.0.23",
+    "snyk": "^1.69.10"
+  },
+  "snyk": true
 }
