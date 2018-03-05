@@ -1,6 +1,6 @@
 {
   "name": "s2ws",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "description": "Expose Spawn to WebSockets",
   "main": "index.js",
   "scripts": {
