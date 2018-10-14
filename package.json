@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/kpcyrd/s2ws#readme",
   "dependencies": {
-    "node-etcd": "^5.1.0",
+    "node-etcd": "^7.0.0",
     "shuffle-array": "^1.0.0",
     "websocket": "^1.0.23"
   }
